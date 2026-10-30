@@ -1,786 +1,334 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mudarangadi Transit - Bus Timings</title>
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
-
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['"Space Grotesk"', 'sans-serif'],
-            mono: ['"JetBrains Mono"', 'monospace'],
-            pass: ['"Courier Prime"', 'monospace'],
-          },
-          colors: {
-            mono: {
-              50: '#f6f6f6',
-              100: '#e7e7e7',
-              200: '#d1d1d1',
-              300: '#b0b0b0',
-              400: '#888888',
-              500: '#6d6d6d',
-              600: '#5d5d5d',
-              700: '#4f4f4f',
-              800: '#222222',
-              900: '#121212',
-              950: '#080808',
-            }
-          },
-          boxShadow: {
-            'glow-sm': '0 0 10px rgba(255, 255, 255, 0.15)',
-            'glow-md': '0 0 20px rgba(255, 255, 255, 0.25)',
-            'inner-glow': 'inset 0 0 15px rgba(255, 255, 255, 0.05)',
-          }
-        }
-      }
-    }
-  </script>
-
-  <style>
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #0d0d0d;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #333;
-      border-radius: 3px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #555;
-    }
-
-    /* Modern Background Pattern */
-    .bg-grid-pattern {
-      background-size: 30px 30px;
-      background-image: 
-        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    }
-
-    /* Glassmorphism card */
-    .glass-card {
-      background: rgba(20, 20, 20, 0.75);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .glass-card-hover {
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .glass-card-hover:hover {
-      border-color: rgba(255, 255, 255, 0.3);
-      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.08);
-      transform: translateY(-2px);
-    }
-
-    /* Metallic Silver Gradient Text */
-    .text-silver-gradient {
-      background: linear-gradient(135deg, #ffffff 0%, #a1a1a1 50%, #ffffff 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    /* Custom Pulse Glow */
-    @keyframes subtlePulse {
-      0%, 100% { opacity: 1; filter: drop-shadow(0 0 8px rgba(255,255,255,0.6)); }
-      50% { opacity: 0.6; filter: drop-shadow(0 0 2px rgba(255,255,255,0.2)); }
-    }
-    .pulse-glow {
-      animation: subtlePulse 2.5s infinite ease-in-out;
-    }
-
-    /* Modal Animation */
-    .modal-backdrop {
-      animation: fadeIn 0.2s ease-out forwards;
-    }
-    .modal-content {
-      animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(20px) scale(0.97); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mudarangadi Transit - Bus Timings</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<script>
+tailwind.config={theme:{extend:{fontFamily:{sans:['"Space Grotesk"','sans-serif'],mono:['"JetBrains Mono"','monospace']},colors:{m:{100:'#e7e7e7',300:'#b0b0b0',400:'#888',500:'#6d6d6d',700:'#4f4f4f',800:'#222',900:'#121212',950:'#080808'}}}}}
+</script>
+<style>
+body{background-image:linear-gradient(to right,rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,.03) 1px,transparent 1px);background-size:30px 30px}
+.glass{background:rgba(20,20,20,.75);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.08)}
+.silver{background:linear-gradient(135deg,#fff,#a1a1a1 50%,#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.card{transition:all .25s}.card:hover{border-color:rgba(255,255,255,.3);transform:translateY(-2px)}
+.tab.on{background:#fff;color:#000}
+@keyframes p{50%{opacity:.4}}.pulse{animation:p 2.5s infinite}
+.pass{font-family:'Courier Prime',monospace}
+/* bus follows the time of day */
+.bus{position:absolute;top:0;font-size:18px;display:inline-block;transform:scaleX(-1);transition:left 1s linear}
+.road{height:1px;background:repeating-linear-gradient(90deg,#444 0 10px,transparent 10px 20px)}
+</style>
 </head>
-<body class="bg-mono-950 text-mono-100 font-sans min-h-screen bg-grid-pattern selection:bg-white selection:text-black antialiased relative flex flex-col justify-between">
+<body class="bg-m-950 text-m-100 font-sans min-h-screen antialiased flex flex-col justify-between">
+<div class="h-[2px] w-full bg-gradient-to-r from-transparent via-white to-transparent"></div>
+<div class="relative h-6 overflow-hidden select-none" aria-hidden="true"><span id="bus" class="bus" title="Where the day is up to">🚌</span><div class="road absolute bottom-0 left-0 right-0"></div></div>
 
-  <!-- Top Decorative Beam -->
-  <div class="h-[2px] w-full bg-gradient-to-r from-transparent via-white to-transparent opacity-80"></div>
-
-  <!-- Main Container -->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 w-full">
-
-    <!-- Header Section -->
-    <header class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 border-b border-mono-800 pb-6">
+<div class="max-w-6xl mx-auto px-4 py-6 sm:py-10 w-full">
+  <header class="flex flex-col md:flex-row md:items-center justify-between gap-5 mb-6 border-b border-m-800 pb-6">
+    <div>
+      <span class="text-xs font-mono uppercase tracking-widest text-m-400 border border-m-800 px-2 py-0.5 rounded-full bg-m-900">🚌 Live Transit System</span>
+      <h1 class="text-4xl lg:text-5xl font-bold tracking-tight silver mt-2">MUDARANGADI</h1>
+      <p class="text-sm text-m-400 font-mono mt-1">Bus timings, both directions</p>
+    </div>
+    <div class="glass px-5 py-3 rounded-xl flex items-center gap-6">
       <div>
-        <div class="flex items-center gap-3 mb-2">
-          <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-mono-900 border border-mono-700 text-white shadow-glow-sm">
-            <i data-lucide="bus" class="w-4 h-4"></i>
-          </span>
-          <span class="text-xs font-mono uppercase tracking-widest text-mono-400 border border-mono-800 px-2 py-0.5 rounded-full bg-mono-900">
-            Live Transit System
-          </span>
-        </div>
-        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-silver-gradient">
-          MUDARANGADI
-        </h1>
-        <p class="text-sm text-mono-400 font-mono mt-1">Bus Timings & Dynamic Schedule Terminal</p>
+        <div class="text-xs text-m-400 font-mono uppercase">Current Time</div>
+        <div id="clock" class="text-2xl sm:text-3xl font-mono font-bold">00:00:00 AM</div>
       </div>
-
-      <!-- Realtime Clock Widget -->
-      <div class="glass-card px-5 py-3 rounded-xl border border-mono-800 flex items-center justify-between md:justify-end gap-6 shadow-inner-glow">
-        <div class="text-left md:text-right">
-          <div class="text-xs text-mono-400 font-mono uppercase tracking-wider">Current Time</div>
-          <div id="liveClock" class="text-2xl sm:text-3xl font-mono font-bold tracking-wider text-white">00:00:00 AM</div>
-        </div>
-        <div class="h-8 w-[1px] bg-mono-800 hidden sm:block"></div>
-        <div class="hidden sm:block text-right">
-          <div id="busCountDisplay" class="text-xl font-bold font-mono text-white">0</div>
-          <div class="text-[10px] text-mono-400 font-mono uppercase">Buses Listed</div>
-        </div>
+      <div class="text-right">
+        <div id="count" class="text-xl font-bold font-mono">0</div>
+        <div class="text-[10px] text-m-400 font-mono uppercase">Buses listed</div>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <!-- Next Bus Highlight Banner -->
-    <div id="nextBusCard" class="mb-8 glass-card rounded-2xl p-5 border border-mono-700 relative overflow-hidden hidden transition-all duration-300">
-      <div class="absolute top-0 right-0 transform translate-x-4 -translate-y-4 w-32 h-32 bg-white/5 rounded-full blur-2xl pointer-events-none"></div>
-      
-      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 relative z-10">
-        <div class="flex items-start sm:items-center gap-4">
-          <div class="p-3 bg-white text-black rounded-xl font-bold shadow-glow-md flex-shrink-0">
-            <i data-lucide="zap" class="w-6 h-6"></i>
-          </div>
+  <!-- Direction tabs -->
+  <div class="grid grid-cols-3 gap-2 mb-6" id="tabs">
+    <button data-dir="FROM" class="tab on font-mono text-xs sm:text-sm py-3 rounded-xl border border-m-800 bg-m-900">From Mudarangadi</button>
+    <button data-dir="TO" class="tab font-mono text-xs sm:text-sm py-3 rounded-xl border border-m-800 bg-m-900">To Mudarangadi</button>
+    <button data-dir="SHIRVA" class="tab font-mono text-xs sm:text-sm py-3 rounded-xl border border-m-800 bg-m-900">From Shirva</button>
+  </div>
+
+  <a href="https://instagram.com/anorvx" target="_blank" rel="noopener" class="glass flex items-center justify-between gap-3 rounded-xl px-4 py-3 mb-6 hover:border-white/30 transition-colors">
+    <span class="text-xs sm:text-sm font-mono text-m-300">⚠ Wrong or missing timing? Tell us.</span>
+    <span class="shrink-0 text-xs font-mono font-bold bg-white text-black px-3 py-1.5 rounded-lg">🚩 Report · @anorvx</span>
+  </a>
+
+  <!-- Next bus -->
+  <div id="next" class="glass rounded-2xl p-5 border border-m-700 mb-6 hidden">
+    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-m-300"><span class="w-2 h-2 rounded-full bg-white pulse"></span>Next departure</div>
+        <div id="nName" class="text-2xl font-bold">--</div>
+        <div id="nRoute" class="text-xs text-m-400 font-mono mt-0.5">--</div>
+      </div>
+      <div class="flex items-center gap-6">
+        <div><div class="text-xs text-m-400 font-mono">Time</div><div id="nTime" class="text-2xl font-mono font-bold">--</div></div>
+        <div><div class="text-xs text-m-400 font-mono">In</div><div id="nIn" class="text-2xl font-mono font-bold bg-m-900 border border-m-700 px-3 py-1 rounded-lg">--</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <section class="glass rounded-2xl p-4 mb-6 space-y-3">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <input id="q" placeholder="Search bus name or stop..." class="px-4 py-2.5 bg-m-900 border border-m-800 rounded-xl text-sm font-mono text-white placeholder-m-500 focus:outline-none focus:border-m-400">
+      <select id="dest" class="px-3 py-2.5 bg-m-900 border border-m-800 rounded-xl text-sm font-mono text-white"><option value="">All stops</option></select>
+      <select id="shift" class="px-3 py-2.5 bg-m-900 border border-m-800 rounded-xl text-sm font-mono text-white">
+        <option value="ALL">All day</option>
+        <option value="MORNING">Morning (6:00 - 12:00)</option>
+        <option value="AFTERNOON">Afternoon (12:00 - 16:00)</option>
+        <option value="EVENING">Evening (16:00 - 21:00)</option>
+        <option value="FAV">⭐ Bookmarked</option>
+      </select>
+    </div>
+    <div class="flex items-center gap-2 overflow-x-auto pt-1">
+      <span class="text-xs font-mono text-m-500 uppercase shrink-0">Popular:</span>
+      <div id="chips" class="flex gap-1.5"></div>
+    </div>
+  </section>
+
+  <div id="list" class="grid grid-cols-1 lg:grid-cols-2 gap-3"></div>
+
+  <div id="none" class="hidden glass rounded-2xl p-12 text-center my-8">
+    <div class="text-4xl mb-2">🚌</div>
+    <h3 class="text-lg font-bold">No buses found</h3>
+    <p class="text-sm text-m-400 font-mono mb-4">Nothing matches your filters.</p>
+    <button onclick="resetFilters()" class="px-4 py-2 bg-m-100 text-black font-semibold text-xs font-mono rounded-lg">Reset filters</button>
+  </div>
+</div>
+
+<footer class="border-t border-m-900 py-6 text-xs font-mono text-m-500">
+  <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row justify-between gap-2">
+    <div>Mudarangadi Departure Hub • Timings are from bus-stand boards and may change</div>
+    <div><a href="https://instagram.com/anorvx" target="_blank" rel="noopener" class="underline underline-offset-4 hover:text-white">Report an issue: @anorvx</a> · © <span id="year"></span> <span class="text-white font-bold tracking-wider">ntrxi</span>. All rights reserved.</div>
+  </div>
+</footer>
+
+<!-- Pass modal -->
+<div id="modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/85 backdrop-blur-md overflow-y-auto" onclick="closeModal()">
+  <div class="relative w-full max-w-md my-8" onclick="event.stopPropagation()">
+    <button onclick="closeModal()" class="absolute -top-3 -right-3 z-10 w-8 h-8 bg-black text-white border border-m-700 rounded-full text-sm">✕</button>
+    <div class="pass bg-[#e8e4dc] text-black p-6 rounded-xl border-2 border-black">
+      <div class="flex justify-between border-b-2 border-dashed border-black pb-3 mb-4 text-xs font-bold uppercase tracking-widest">
+        <span>[ Bus pass card ]</span><span id="pId">ID</span>
+      </div>
+      <img id="pImg" class="hidden w-full h-40 object-cover border-2 border-black rounded mb-3" alt="" onerror="this.classList.add('hidden')">
+      <div id="pName" class="text-3xl font-bold uppercase border-b border-black pb-1 mb-2 font-sans"></div>
+      <div class="grid grid-cols-3 gap-1 py-1 border-b border-black text-sm"><b class="uppercase">Departs:</b><span class="col-span-2 font-bold" id="pTime"></span></div>
+      <div class="grid grid-cols-3 gap-1 py-1 border-b border-black text-sm"><b class="uppercase">From:</b><span class="col-span-2" id="pFrom"></span></div>
+      <div class="grid grid-cols-3 gap-1 py-1 border-b border-black text-sm"><b class="uppercase">To:</b><span class="col-span-2" id="pTo"></span></div>
+      <div class="h-6 w-full mt-3 bg-[repeating-linear-gradient(90deg,#000,#000_2px,#fff_2px,#fff_4px,#000_4px,#000_7px)]"></div>
+      <div class="mt-4 border-2 border-black bg-white p-3 rounded">
+        <div class="text-[10px] font-bold uppercase border-b border-gray-300 pb-1 mb-2">Route & stops</div>
+        <div id="pRoute" class="text-xs leading-relaxed"></div>
+      </div>
+      <div class="text-[10px] font-bold mt-3">ntrxi • TRANSIT</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---------- DATA ----------
+// Route shorthand (FROM buses are prefixed with "Mudarangadi > ")
+const R={
+ a:"Kuthyar > Shirva > Bantakal > Shankarpura > Katapady > Udupi",
+ b:"Yellur > Paniyoor > Uchila > Kaup > Katapady > Udupi",
+ c:"Nandikoor > Padubidri",
+ d:"Admar > Yermal > Uchila > Kaup > Katapady > Udupi",
+ e:"Kuthyar > Shirva > Kaup > Udupi",
+ e2:"Kuthyar > Shirva > Kaup > Katapady > Udupi",
+ f:"Nandikoor > Padubidri > Hejamady > Mulki",
+ g:"Kuthyar > Shirva",
+ h:"Nandikoor > Palimar",
+ i:"Shirva > Bailur",
+ k:"Nandikoor > Padubidri > Mulki > Kateel",
+ n:"Belman > Mundkur > Kinnigoli > Balkunje"
+};
+const FROM=[
+["Amarjyothi","06:15 AM",R.a+" > Manipal"],["S.V.T","06:54 AM","Kuthyar > Shirva > Hebri > Udupi > Hiriyadka > Perdoor"],
+["Maroli","07:20 AM",R.c+" > Mangalore"],["Nithyadar (Vikram)","07:40 AM",R.b],["Ganesh","07:50 AM",R.b],["Asha","07:50 AM",R.a],
+["Kanthi","07:52 AM",R.c],["S.V.T","07:53 AM",R.b],["Kanthi","07:54 AM",R.c],["Sangam","08:01 AM",R.d],
+["H.M.T","08:05 AM","Nandikoor > Adve > Belman"],["Sri Ganesh Prasad","08:10 AM",R.a],["Sharadamba","08:10 AM",R.c],
+["Pranam","08:16 AM",R.b],["Kanthi","08:24 AM",R.e],["Cekiena","08:28 AM",R.f],["Star","08:30 AM",R.g],
+["Amarjyothi","08:45 AM",R.a],["S.V.T","08:50 AM",R.b+" > Perdoor > Hiriyadka"],["Sharadamba","08:55 AM","Shirva"],
+["Kanthi","09:10 AM",R.c],["Star","09:16 AM",R.e2],["Celiena","09:32 AM",R.g],["Sharadamba","09:32 AM","Admar > Padubidri"],
+["A.K.M.S","09:35 AM",R.h],["Cekiena","09:55 AM",R.g+" > Moodubelle"],["Asha","09:55 AM",R.k],["Nithyadar (Vikram)","10:02 AM",R.h],
+["Kanthi","10:05 AM",R.a],["Priya","10:05 AM",R.c],["Sharadamba","10:10 AM",R.a],["A.K.M.S","10:12 AM",R.c],
+["Kanthi","10:20 AM",R.c],["Kanthi","10:26 AM",R.a],["Celiena","10:27 AM",R.d],["Kanthi","10:30 AM",R.a],
+["Sangam","10:48 AM",R.g+" > Belman"],["A.K.M.S","10:58 AM",R.i],["Priya","11:05 AM","Shirva > Palli > Bailur"],
+["Kanthi","11:07 AM",R.c],["Pranam","11:09 AM",R.n],["Cekiena","11:22 AM",R.f],
+["Nithyadar (Vikram)","11:37 AM","Yellur > Uchila > Kaup > Katapady > Udupi"],["Kanthi","11:43 AM",R.e],
+["Amarjyothi","12:05 PM",R.a],["Ganesh","12:12 PM",R.b],["H.M.T","12:34 PM",R.d],["Star","12:36 PM",R.e2],
+["S.V.T","12:50 PM",R.b],["Cekiena","12:56 PM",R.g+" > Moodubelle"],["Asha","01:10 PM",R.a],["Kanthi","01:12 PM",R.c],
+["A.K.M.S","01:25 PM",R.h],["Nithyadar (Vikram)","01:55 PM",R.h+" > Balkunje"],["Priya","02:07 PM",R.c],
+["Sharadamba","02:10 PM",R.a],["A.K.M.S","02:15 PM",R.b],["Kanthi","02:35 PM",R.g],["Kanthi","02:38 PM",R.c],
+["Pranam","02:50 PM","Kaup > Udupi"],["Priya","02:53 PM",R.i],["Cekiena","03:05 PM",R.f],["Kanthi","03:10 PM",R.e],
+["Kanthi","03:30 PM",R.c],["Nithyadar (Vikram)","03:35 PM",R.b],["Cekiena","03:45 PM",R.g],["H.M.T","03:50 PM",R.d],
+["Sangam","03:56 PM","Kuthyar > Shirva > Udupi"],["Star","04:08 PM",R.a],["Cekiena","04:20 PM",R.f],["Kanthi","04:30 PM",R.a],
+["A.K.M.S","04:50 PM",R.h],["Amarjyothi","04:54 PM",R.a],["Ganesh","04:56 PM",R.b],["Sharadamba","05:06 PM","Admar > Padubidri"],
+["A.K.M.S","05:20 PM","Yellur > Uchila > Kaup > Katapady > Udupi"],["Priya","05:20 PM",R.i],["Kanthi","05:45 PM",R.c],
+["Cekiena","05:50 PM",R.g+" > Moodubelle"],["Pranam","05:53 PM",R.n],["Maroli","06:01 PM",R.g],["Asha","06:15 PM",R.k],
+["Sharadamba","06:21 PM",R.g],["Kanthi","06:23 PM",R.c],["Sangam","06:25 PM",R.b],["Kanthi","06:28 PM",R.g],
+["H.M.T","06:30 PM",R.d],["Prince","06:40 PM",R.c],
+["Amarjyothi","07:30 PM",R.g],["Ganesh / Kanthi","07:30 PM","Admar > Yermal"],["Sangam","08:20 PM","Shirva"]
+].map(([n,t,r])=>({dir:"FROM",name:n,time:t,route:"Mudarangadi > "+r}));
+
+const M="Shirva > Mudarangadi",P="Padubidri > Shirva > Mudarangadi",L="Mulki > Shirva > Mudarangadi",K="Kateel > Shirva > Mudarangadi";
+const TO=[
+["Kanthi","07:30 AM",P],["Sangam","07:45 AM",M],["Sharadamba","07:55 AM",M],["Star","08:10 AM",M],["Cekina","08:15 AM",L],
+["Amarjyothi","08:30 AM",M],["Sangam","09:00 AM",M],["Sharadamba","09:10 AM",M],["Prince","09:30 AM",M],["Priya","09:50 AM",P],
+["Asha","10:00 AM",K],["Celina","10:15 AM",M],["Kanthi","10:45 AM",P],["Cekina","11:00 AM",L],["Amarjyothi","11:15 AM",M],
+["Sangam","11:26 AM",P],["Star","12:00 PM",M],["Kanthi","12:50 PM",P],["Sangam","01:10 PM",M],["Sharadamba","01:30 PM",P],
+["Priya","01:50 PM",P],["Kanthi","02:10 PM",P],["Cekina","02:27 PM",L],["Kanthi","03:00 PM",P],["Star","03:45 PM",M],
+["Cekina","04:00 PM",L],["Amarjyothi","04:25 PM",M],["Priya","05:05 PM",M],["Prince","05:20 PM",P],["Star","05:40 PM",M],
+["Asha","05:50 PM",K],["Sangam","06:10 PM",M],["Prince","06:20 PM",P],["PTC","06:45 PM",M],["Amarjyothi","07:35 PM",M]
+].map(([n,t,r])=>({dir:"TO",name:n,time:t,route:r}));
+
+const mb="Shirva > Moodubelle",pl="Shirva > Palli";
+const SHIRVA=[
+["Prince","07:15 AM",mb],["Prince","08:05 AM",mb],["Prince","08:35 AM",mb],["Cekina","10:10 AM",mb],["Prince","10:55 AM",mb],
+["Prince","11:45 AM",mb],["Vishal","12:15 PM",mb],["Cekina","01:05 PM",mb],["Rajaram","02:15 PM",mb],["Prince","03:30 PM",mb],
+["Prince","04:30 PM",mb],["Prince","05:20 PM",mb],["Cekina","06:10 PM",mb],
+["Kanthi","07:20 AM",pl],["Asha","08:03 AM",pl],["Priya","11:14 AM",pl],["Kanthi","01:24 PM",pl],["Priya","03:06 PM",pl],
+["Kanthi","08:50 AM","Shirva > Arbikatte"],["Kanthi","08:50 AM","Shirva > Mulki"]
+].map(([n,t,r])=>({dir:"SHIRVA",name:n,time:t,route:r}));
+
+
+// Rows read from blurry/glare-affected board photos: flagged with "?"
+const BLUR=[].concat(
+ [["Kanthi","06:12 AM"],["Amarjyothi","06:32 AM"],["Naveen","06:52 AM"],["Prince","07:10 AM"],["Celina","07:15 AM"],["Teena","07:20 AM"],["Lobo","07:30 AM"],["Navadurga","07:35 AM"],["Prince","07:42 AM"],["Star","07:50 AM"],["Star","07:57 AM"],["Asha","08:07 AM"],["Prince","08:17 AM"],["Kanthi (Sandesh)","08:27 AM"],["Naveen Suraj","08:48 AM"],["Golden","08:54 AM"],["Amarjyothi","09:03 AM"],["Naveen","09:10 AM"],["Prince","09:20 AM"],["Kanthi","09:30 AM"],["Star","09:40 AM"],["Sangam (Keerthi)","09:44 AM"],["Teena","09:51 AM"],["Lobo","10:06 AM"],["Navadurga","10:15 AM"],["Prince","10:20 AM"],["Sharadamba","10:25 AM"],["Sangam","10:35 AM"],["Kanthi","10:44 AM"],["Kanthi","10:47 AM"],["Prince","10:52 AM"],["Sangam","11:00 AM"],["Sangam","11:10 AM"],["Amarjyothi","12:23 PM"],["Sangam","12:30 PM"],["Prince","12:38 PM"],["Nikisha","12:45 PM"],["Naveen Suraj","12:55 PM"],["Teena","01:10 PM"],["Star","01:16 PM"],["Asha","01:30 PM"],["Star","01:40 PM"],["Kanthi","01:50 PM"],["Kanthi","02:00 PM"],["Lobo","02:10 PM"],["Prince","02:20 PM"],["Bharathi","02:25 PM"],["Sharadamba","02:32 PM"],["Prince","02:35 PM"],["Sangam","02:40 PM"],["Golden","02:44 PM"],["Sangam","02:50 PM"],["Kanthi","03:02 PM"],["Sangam","03:10 PM"],["Kanthi","03:20 PM"],["Naveen Bus","03:35 PM"],["Star","03:40 PM"],["Star","03:50 PM"],["Alan","04:00 PM"],["Prince","04:05 PM"],["Naveen","04:15 PM"],["Prince","04:22 PM"],["Naveen","04:30 PM"],["Teena","04:38 PM"],["Kanthi","04:45 PM"],["Lobo","04:50 PM"],["Naveen","05:03 PM"],["Prince","05:05 PM"],["Amarjyothi","05:10 PM"],["Kanthi","05:20 PM"],["Sangam","05:30 PM"],["Kanthi","05:42 PM"],["Sangam","05:57 PM"],["Kanthi","06:02 PM"],["Naveen","06:10 PM"],["Prince","06:16 PM"],["Prince","06:25 PM"],["Prince","06:36 PM"],["Prince","06:45 PM"],["Reshma","06:50 PM"],["Sangam","06:55 PM"],["Star","07:02 PM"],["Bharathi","07:25 PM"],["Teena","07:32 PM"],["Sangam","07:40 PM"]].map(r=>[...r,"Shirva > Udupi"]),
+ [["Teena","03:05 PM"],["Sangam (Karkala)","03:10 PM"],["Star","03:18 PM"],["Prince","03:21 PM"],["Lobo","03:35 PM"],["Kanthi","03:41 PM"],["Kanthi (Karkala)","03:55 PM"],["Navadurga (Kateel)","04:05 PM"],["Sangam","04:12 PM"],["Bharathi (Karkala)","04:24 PM"],["Navadurga","04:28 PM"],["Kanthi","04:40 PM"],["Golden (Kateel)","04:46 PM"],["Sangam (Karkala)","05:05 PM"],["Sangam","05:10 PM"],["Star (Karkala)","05:18 PM"],["Naveen","05:28 PM"],["PM (Karkala)","05:46 PM"],["Star (Karkala)","05:51 PM"],["Sangami","06:00 PM"],["Prince","06:05 PM"],["Rashmi","06:14 PM"],["Naveen","06:26 PM"],["Naveen","06:36 PM"],["Naveen (Karkala)","06:50 PM"],["Celina","07:05 PM"],["Kanthi","07:30 PM"]].map(r=>[...r,"Shirva > Belman"]),
+ [["Sharadamba","06:50 AM"],["Vishal","07:15 AM"],["Milan","07:35 AM"],["Star","08:30 AM"],["Milan","08:42 AM"],["Kanthi","09:05 AM"],["Sharadamba","09:35 AM"],["Star","10:10 AM"],["Milan","11:15 AM"],["PM","11:32 AM"],["Kanthi","11:58 AM"],["Sharadamba","12:20 PM"],["Star","01:00 PM"],["Padma","01:22 PM"],["Sharadamba","01:50 PM"],["Vishal","02:10 PM"],["Milan","02:45 PM"],["PM","03:04 PM"],["Kanthi","03:25 PM"],["Sharadamba","04:00 PM"],["Star","04:30 PM"],["Milan","05:00 PM"],["Padma","05:30 PM"],["Sharadamba","06:10 PM"],["Milan","06:25 PM"],["Star","07:10 PM"],["Milan","07:35 PM"],["PM","07:55 PM"]].map(r=>[...r,"Shirva > Kaup"]),
+ [["Prince","07:45 AM"],["Prince","08:57 AM"],["Prince","09:15 AM"],["Prince","10:17 AM"],["Sharadamba","10:35 AM"],["Prince","10:55 AM"],["Prince","01:55 PM"],["Prince","04:30 PM"],["Alan","06:10 PM"]].map(r=>[...r,"Shirva > Sooda"])
+).map(([n,t,r])=>({dir:"SHIRVA",name:n,time:t,route:r,unsure:true}));
+const BUS=[...FROM,...TO,...SHIRVA,...BLUR].map((b,i)=>({...b,id:i+1,min:toMin(b.time),unsure:!!b.unsure}));
+// Same bus name = same pass ID (ignores brackets; spelling variants of Cekina are merged)
+const bKey=n=>{n=n.toLowerCase().replace(/\s*\(.*?\)/g,"").trim();return({cekiena:"cekina",celiena:"cekina",celina:"cekina"})[n]||n};
+const CODES={};BUS.forEach(b=>{const k=bKey(b.name);if(!(k in CODES))CODES[k]=Object.keys(CODES).length+1;b.code=CODES[k]});
+const IMG={
+"amarjyothi":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZ4TCZXkr3pQh5Nyxcdh3fcD1BPCtGa-Abq7VsBP6CeDWipmD6vBV5RQM&s=10",
+"s.v.t":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfdso5-V93Hp4_3-K3JPdDWIE0xFSNPrqlKgtkoHDjDeJL9qupA6z_DJ6m&s=10",
+"maroli":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbNZTMVbYpC4eSjHhu8GfOG6Bc_XgAQlgBTlVE5zPNzoguLkyaRb12R6fb&s=10",
+"nithyadar (vikram)":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEjhk6U2u6s6w-oIaNLVI6fAgmp4ubeA1gOZEZdFUQXUUp0qTLRxsmrvfJ&s=10",
+"sangam":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMyqeQKhXMjEvhVieIp7fVZrYmzZP-v5zPwOPfzbPlxyE5C0gjweKWQV0&s=10",
+"kanthi":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgKxVWtizE6EfWlJgKl5tGrZA1TZlX4oNBsuGfuaL0R_s3VqlYlaoGqX4&s=10",
+"asha":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQFYy34PlbeXtqcYHUyh9eTpTwb1Y6E2tS7gta7N6qu9T4UaaED1PBEGE&s=10",
+"sharadamba":"https://i.ytimg.com/vi/px5_ACw8o3Y/hqdefault.jpg",
+"pranam":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBxzmeSwOHYTQqbI4r2gKfsjPz_wW2sJE0qNYBVEDhwg&s",
+"star":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWKFqTIyjqm6U_QdEw0z6FukvC7dyYR8RMgIYCIRVih9EKZ1wLTyaB2PeR&s=10",
+"prince":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSep6cVOIR9iHEM_3tCJAiGPvD-migCR6HcVu0wbfPulfOaoO6qCZUUjrsB&s=10",
+"a.k.m.s":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAR5U4e3FPJHurr5mOehdF2HIpYEPw6w4WYKNaJJ2-V68riJTrjCh-Q9o&s=10",
+"h.m.t":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHcSpvLjstg_Sd3EZvAoN9kK7q0-QFsNfe1Y0rwkfmJ23YW6C7O2ZsJeA&s=10"
+};
+const av=(n,sz)=>IMG[n.toLowerCase()]?`<img src="${IMG[n.toLowerCase()]}" onerror="imgFail(this)" class="${sz} rounded-full object-cover border border-m-700 shrink-0" alt="">`:`<span class="text-base">🚌</span>`;
+function imgFail(i){i.replaceWith(Object.assign(document.createElement("span"),{textContent:"🚌"}))}
+let notes=[];
+const go=()=>render();
+function toggleNote(id){notes=notes.includes(id)?notes.filter(x=>x!==id):[...notes,id];render()}
+const CHIPS=["Udupi","Padubidri","Shirva","Kaup","Katapady","Manipal","Belman"];
+const $=id=>document.getElementById(id);
+let dir="FROM",fav=[];
+try{fav=JSON.parse(localStorage.getItem("mud_fav")||"[]")}catch(e){}
+
+function toMin(s){const m=s.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);let h=+m[1];if(m[3].toUpperCase()==="PM"&&h<12)h+=12;if(m[3].toUpperCase()==="AM"&&h===12)h=0;return h*60+ +m[2]}
+const inDir=()=>BUS.filter(b=>b.dir===dir).sort((a,b)=>a.min-b.min);
+
+function buildDest(){
+  const keep=$("dest").value;
+  const stops=new Set();
+  inDir().forEach(b=>b.route.split(">").forEach(s=>{s=s.trim();if(s!=="Mudarangadi")stops.add(s)}));
+  $("dest").innerHTML='<option value="">All stops</option>'+[...stops].sort().map(s=>`<option value="${s.toLowerCase()}">${s}</option>`).join("");
+  $("dest").value=[...stops].some(s=>s.toLowerCase()===keep)?keep:"";
+  $("chips").innerHTML="";
+  CHIPS.filter(c=>stops.has(c)).forEach(c=>{
+    const b=document.createElement("button");
+    b.className="px-2.5 py-1 text-xs font-mono rounded-lg bg-m-900 border border-m-800 text-m-300 hover:text-white hover:border-m-400 shrink-0";
+    b.textContent=c;b.onclick=()=>{$("dest").value=c.toLowerCase();go()};
+    $("chips").appendChild(b);
+  });
+}
+
+function filtered(){
+  const q=$("q").value.toLowerCase().trim(),d=$("dest").value,s=$("shift").value;
+  return inDir().filter(b=>{
+    if(q&&!b.name.toLowerCase().includes(q)&&!b.route.toLowerCase().includes(q))return false;
+    if(d&&!b.route.toLowerCase().includes(d))return false;
+    if(s==="MORNING")return b.min>=360&&b.min<720;
+    if(s==="AFTERNOON")return b.min>=720&&b.min<960;
+    if(s==="EVENING")return b.min>=960&&b.min<=1260;
+    if(s==="FAV")return fav.includes(b.id);
+    return true;
+  });
+}
+
+function render(){
+  const list=filtered();
+  $("count").textContent=list.length;
+  $("none").classList.toggle("hidden",list.length>0);
+  $("list").innerHTML=list.map(b=>`
+    <div class="card glass rounded-xl p-4 cursor-pointer" onclick="openModal(${b.id})">
+      <div class="flex justify-between items-start gap-3">
+        <div class="flex items-center gap-2.5">
+          ${av(b.name,"w-8 h-8")}
           <div>
-            <div class="flex items-center gap-2">
-              <span class="inline-block w-2 h-2 rounded-full bg-white pulse-glow"></span>
-              <span class="text-xs font-mono font-bold uppercase tracking-widest text-mono-300">Next Departure</span>
-            </div>
-            <div id="nextBusName" class="text-xl sm:text-2xl font-bold text-white tracking-wide">--</div>
-            <div id="nextBusRoute" class="text-xs sm:text-small text-mono-400 font-mono line-clamp-1 mt-0.5">--</div>
+            <div class="text-base font-bold">${b.name}</div>
+            <span class="inline-block text-xs font-mono mt-1 bg-m-900 px-2 py-0.5 rounded border border-m-800">🕒 ${b.time}</span>
           </div>
         </div>
-
-        <div class="flex items-center justify-between lg:justify-end gap-6 border-t lg:border-t-0 border-mono-800 pt-3 lg:pt-0">
-          <div class="text-left lg:text-right">
-            <div class="text-xs text-mono-400 font-mono">Departure Time</div>
-            <div id="nextBusTime" class="text-2xl font-mono font-bold text-white">--:-- --</div>
-          </div>
-          <div class="text-right">
-            <div class="text-xs text-mono-400 font-mono">Departs In</div>
-            <div id="nextBusCountdown" class="text-2xl font-mono font-bold text-white bg-mono-900 border border-mono-700 px-3 py-1 rounded-lg">-- min</div>
-          </div>
+        <div class="flex items-center gap-1">
+          ${b.unsure?`<button onclick="event.stopPropagation();toggleNote(${b.id})" title="Timing may be inaccurate" class="w-6 h-6 text-xs font-mono rounded-full border ${notes.includes(b.id)?'border-white text-white':'border-m-700 text-m-500'}">?</button>`:''}
+          <button onclick="event.stopPropagation();toggleFav(${b.id})" class="p-1 text-xl ${fav.includes(b.id)?'text-white':'text-m-700'}">${fav.includes(b.id)?'★':'☆'}</button>
         </div>
       </div>
-    </div>
-
-    <!-- Filters & Search Toolbar -->
-    <section class="glass-card rounded-2xl p-4 sm:p-5 mb-8 border border-mono-800 space-y-4">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3">
-        
-        <!-- Search Box -->
-        <div class="lg:col-span-5 relative">
-          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-mono-500">
-            <i data-lucide="search" class="w-4 h-4"></i>
-          </div>
-          <input 
-            type="text" 
-            id="searchInput" 
-            placeholder="Search bus name or route stop..." 
-            class="w-full pl-10 pr-4 py-2.5 bg-mono-900 border border-mono-800 rounded-xl text-sm text-white placeholder-mono-500 focus:outline-none focus:border-mono-400 focus:ring-1 focus:ring-mono-400 font-mono transition-all"
-          />
-        </div>
-
-        <!-- Destination Dropdown -->
-        <div class="lg:col-span-4 relative">
-          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-mono-500">
-            <i data-lucide="map-pin" class="w-4 h-4"></i>
-          </div>
-          <select 
-            id="destinationSelect" 
-            class="w-full pl-10 pr-10 py-2.5 bg-mono-900 border border-mono-800 rounded-xl text-sm text-white focus:outline-none focus:border-mono-400 focus:ring-1 focus:ring-mono-400 font-mono appearance-none cursor-pointer transition-all"
-          >
-            <option value="">All Destinations</option>
-          </select>
-          <div class="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-mono-500">
-            <i data-lucide="chevron-down" class="w-4 h-4"></i>
-          </div>
-        </div>
-
-        <!-- Time Shift Dropdown -->
-        <div class="lg:col-span-3 relative">
-          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-mono-500">
-            <i data-lucide="clock" class="w-4 h-4"></i>
-          </div>
-          <select 
-            id="timeShiftSelect" 
-            class="w-full pl-10 pr-10 py-2.5 bg-mono-900 border border-mono-800 rounded-xl text-sm text-white focus:outline-none focus:border-mono-400 focus:ring-1 focus:ring-mono-400 font-mono appearance-none cursor-pointer transition-all"
-          >
-            <option value="ALL">All Day Timings</option>
-            <option value="MORNING">Morning (06:00 - 12:00)</option>
-            <option value="AFTERNOON">Afternoon (12:00 - 16:00)</option>
-            <option value="EVENING">Evening (16:00 - 21:00)</option>
-            <option value="FAVORITES">⭐ Bookmarked Buses</option>
-          </select>
-          <div class="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-mono-500">
-            <i data-lucide="chevron-down" class="w-4 h-4"></i>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Quick Destination Badges -->
-      <div class="flex items-center gap-2 pt-2 overflow-x-auto no-scrollbar border-t border-mono-900">
-        <span class="text-xs font-mono text-mono-500 uppercase tracking-wider flex-shrink-0">Popular:</span>
-        <div id="quickChipsContainer" class="flex items-center gap-1.5 overflow-x-auto py-1">
-        </div>
-      </div>
-    </section>
-
-    <!-- Table View -->
-    <div class="hidden md:block glass-card rounded-2xl border border-mono-800 overflow-hidden shadow-2xl mb-8">
-      <div class="overflow-x-auto">
-        <table class="w-full text-left border-collapse" id="busTable">
-          <thead>
-            <tr class="bg-mono-900/90 border-b border-mono-800 text-xs font-mono text-mono-400 uppercase tracking-wider">
-              <th class="py-4 px-6 w-12 text-center">Fav</th>
-              <th class="py-4 px-6">Bus Name</th>
-              <th class="py-4 px-6 w-44">Departure</th>
-              <th class="py-4 px-6">Trip Route</th>
-              <th class="py-4 px-6 w-32 text-right">Pass Info</th>
-            </tr>
-          </thead>
-          <tbody id="busTableBody" class="divide-y divide-mono-900 text-sm">
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Mobile Responsive Cards -->
-    <div class="md:hidden space-y-3.5 mb-8" id="busCardContainer">
-    </div>
-
-    <!-- No Results Placeholder -->
-    <div id="noResults" class="hidden glass-card rounded-2xl p-12 text-center border border-mono-800 my-8">
-      <i data-lucide="bus-front" class="w-12 h-12 mx-auto text-mono-600 mb-3 stroke-[1.5]"></i>
-      <h3 class="text-lg font-bold text-white mb-1">No Buses Found</h3>
-      <p class="text-sm text-mono-400 max-w-xs mx-auto mb-4 font-mono">No scheduled departures match your current filter parameters.</p>
-      <button onclick="resetFilters()" class="px-4 py-2 bg-mono-100 hover:bg-white text-black font-semibold text-xs font-mono rounded-lg transition-colors">
-        Reset All Filters
-      </button>
-    </div>
-
-  </div>
-
-  <!-- Terminal Footer with ntrxi branding -->
-  <footer class="w-full border-t border-mono-900 bg-mono-950 py-6 text-center text-xs font-mono text-mono-500">
-    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-      <div>Mudarangadi Departure Hub &bull; Terminal System</div>
-      <div>&copy; <span id="year"></span> <span class="text-white font-bold tracking-wider">ntrxi</span>. All rights reserved.</div>
-    </div>
-  </footer>
-
-  <!-- Pass Card Modal -->
-  <div id="routeModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md modal-backdrop hidden overflow-y-auto" onclick="closeModal()">
-    <div class="relative w-full max-w-xl my-8 modal-content" onclick="event.stopPropagation()">
-      
-      <!-- Close Button -->
-      <button onclick="closeModal()" class="absolute -top-3 -right-3 z-20 w-8 h-8 bg-black text-white border border-mono-600 rounded-full flex items-center justify-center text-sm font-mono hover:bg-mono-800 transition-colors">
-        ✕
-      </button>
-
-      <!-- Pass Card Container -->
-      <div class="bg-[#e8e4dc] text-black font-pass p-5 sm:p-7 rounded-xl border-2 border-black shadow-[0_0_30px_rgba(0,0,0,0.8)] relative overflow-hidden">
-        
-        <!-- Pass Card Header -->
-        <div class="flex items-center justify-between border-b-2 border-dashed border-black pb-3 mb-4">
-          <div class="text-xs uppercase tracking-widest font-bold text-mono-800">
-            [ BUS PASS CARD ]
-          </div>
-          <div class="flex items-center gap-2 text-xs font-bold">
-            <span id="passCardCode" class="font-mono">ID: MUD-000</span>
-            <div class="w-3 h-3 border border-black flex items-center justify-center text-[8px] font-bold">★</div>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-12 gap-5 items-center">
-          
-          <!-- Left Column: Portrait & Barcode -->
-          <div class="sm:col-span-5 flex flex-col items-center">
-            <div class="w-full h-44 bg-black border-2 border-black rounded p-1 mb-2 relative overflow-hidden flex items-center justify-center">
-              <img id="passBusImg" src="" alt="Bus Portrait" class="w-full h-full object-cover">
-              <div id="passBusImgPlaceholder" class="hidden text-3xl text-white font-bold">🚌</div>
-              <span class="absolute bottom-1 left-1 text-[9px] bg-black text-white px-1 font-mono uppercase">PORTRAIT</span>
-            </div>
-            
-            <div class="w-full bg-white border border-black p-1 text-center">
-              <div class="text-[9px] font-mono font-bold tracking-widest uppercase mb-0.5" id="passBusNameTag">* BUS PASS *</div>
-              <!-- Simulated Barcode -->
-              <div class="h-6 w-full bg-[repeating-linear-gradient(90deg,#000,#000_2px,#fff_2px,#fff_4px,#000_4px,#000_7px)] border-t border-black"></div>
-            </div>
-          </div>
-
-          <!-- Right Column: Specs & Data -->
-          <div class="sm:col-span-7 flex flex-col justify-between h-full space-y-2 text-xs sm:text-sm">
-            <div class="text-2xl font-bold font-sans tracking-tight border-b border-black pb-1 uppercase" id="passBusTitle">
-              BUS NAME
-            </div>
-
-            <div class="grid grid-cols-3 gap-1 py-1 border-b border-black text-xs font-mono">
-              <span class="font-bold uppercase text-mono-700">Departs:</span>
-              <span class="col-span-2 font-bold text-black" id="passBusTime">--:-- AM</span>
-            </div>
-
-            <div class="grid grid-cols-3 gap-1 py-1 border-b border-black text-xs font-mono">
-              <span class="font-bold uppercase text-mono-700">Terminal:</span>
-              <span class="col-span-2 text-black">Mudarangadi</span>
-            </div>
-
-            <div class="grid grid-cols-3 gap-1 py-1 border-b border-black text-xs font-mono">
-              <span class="font-bold uppercase text-mono-700">Status:</span>
-              <span class="col-span-2 text-black font-bold" id="passBusStatus">SCHEDULED</span>
-            </div>
-
-            <!-- Symbols Bar -->
-            <div class="pt-2 flex items-center justify-between text-[10px] font-mono border-t border-dashed border-black">
-              <span class="font-bold">ntrxi • TRANSIT</span>
-              <div class="flex gap-1 font-bold">
-                <span class="border border-black px-1">W</span>
-                <span class="border border-black px-1">A</span>
-                <span class="border border-black px-1">X</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Route Stops Box -->
-        <div class="mt-5 border-2 border-black bg-white p-3 rounded">
-          <div class="text-[10px] font-bold uppercase tracking-wider mb-2 border-b border-mono-300 pb-1 font-mono flex justify-between">
-            <span>Route Flow & Stops</span>
-            <span>Mudarangadi Route</span>
-          </div>
-          <div class="text-xs font-mono text-black leading-relaxed" id="passRouteText">
-            <!-- Route stops injected here -->
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-  </div>
-
-  <script>
-    // Bus Image Directory Mapping
-    const busImages = {
-      "amarjyothi": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZ4TCZXkr3pQh5Nyxcdh3fcD1BPCtGa-Abq7VsBP6CeDWipmD6vBV5RQM&s=10",
-      "s.v.t": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfdso5-V93Hp4_3-K3JPdDWIE0xFSNPrqlKgtkoHDjDeJL9qupA6z_DJ6m&s=10",
-      "maroli": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbNZTMVbYpC4eSjHhu8GfOG6Bc_XgAQlgBTlVE5zPNzoguLkyaRb12R6fb&s=10",
-      "nithyadar (vikram)": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEjhk6U2u6s6w-oIaNLVI6fAgmp4ubeA1gOZEZdFUQXUUp0qTLRxsmrvfJ&s=10",
-      "sangam": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMyqeQKhXMjEvhVieIp7fVZrYmzZP-v5zPwOPfzbPlxyE5C0gjweKWQV0&s=10",
-      "kanthi": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgKxVWtizE6EfWlJgKl5tGrZA1TZlX4oNBsuGfuaL0R_s3VqlYlaoGqX4&s=10",
-      "asha": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQFYy34PlbeXtqcYHUyh9eTpTwb1Y6E2tS7gta7N6qu9T4UaaED1PBEGE&s=10",
-      "sharadamba": "https://i.ytimg.com/vi/px5_ACw8o3Y/hqdefault.jpg",
-      "pranam": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBxzmeSwOHYTQqbI4r2gKfsjPz_wW2sJE0qNYBVEDhwg&s",
-      "star": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWKFqTIyjqm6U_QdEw0z6FukvC7dyYR8RMgIYCIRVih9EKZ1wLTyaB2PeR&s=10",
-      "prince": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSep6cVOIR9iHEM_3tCJAiGPvD-migCR6HcVu0wbfPulfOaoO6qCZUUjrsB&s=10",
-      "a.k.m.s": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAR5U4e3FPJHurr5mOehdF2HIpYEPw6w4WYKNaJJ2-V68riJTrjCh-Q9o&s=10",
-      "h.m.t": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHcSpvLjstg_Sd3EZvAoN9kK7q0-QFsNfe1Y0rwkfmJ23YW6C7O2ZsJeA&s=10"
-    };
-
-    // Full Schedule Dataset
-    const BUS_DATA = [
-      { id: 1, name: "Amarjyothi", time: "06:15 AM", route: "Mudarangadi > Kuthyar > Shirva > Bantakal > Shankarpura > Katapady > Udupi > Manipal" },
-      { id: 2, name: "S.V.T", time: "06:54 AM", route: "Mudarangadi > Kuthyar > Shirva > Hebri > Udupi > Hiriyadka > Perdoor" },
-      { id: 3, name: "Maroli", time: "07:20 AM", route: "Mudarangadi > Nandikoor > Padubidri > Mangalore" },
-      { id: 4, name: "Nithyadar (Vikram)", time: "07:40 AM", route: "Mudarangadi > Yellur > Paniyoor > Uchila > Kaup > Katapady > Udupi" },
-      { id: 5, name: "Ganesh", time: "07:50 AM", route: "Mudarangadi > Yellur > Paniyoor > Uchila > Kaup > Katapady > Udupi" },
-      { id: 6, name: "Asha", time: "07:50 AM", route: "Mudarangadi > Kuthyar > Shirva > Bantakal > Shankarpura > Katapady > Udupi" },
-      { id: 7, name: "Kanthi", time: "07:52 AM", route: "Mudarangadi > Nandikoor > Padubidri" },
-      { id: 8, name: "S.V.T", time: "07:53 AM", route: "Mudarangadi > Yellur > Paniyoor > Uchila > Kaup > Katapady > Udupi" },
-      { id: 9, name: "Kanthi", time: "07:54 AM", route: "Mudarangadi > Nandikoor > Padubidri" },
-      { id: 10, name: "Sangam", time: "08:01 AM", route: "Mudarangadi > Admar > Yermal > Uchila > Kaup > Katapady > Udupi" },
-      { id: 11, name: "H.M.T", time: "08:05 AM", route: "Mudarangadi > Nandikoor > Adve > Belman" },
-      { id: 12, name: "Sri Ganesh Prasad", time: "08:10 AM", route: "Mudarangadi > Kuthyar > Shirva > Bantakal > Shankarpura > Katapady > Udupi" },
-      { id: 13, name: "Sharadamba", time: "08:10 AM", route: "Mudarangadi > Nandikoor > Padubidri" },
-      { id: 14, name: "Pranam", time: "08:16 AM", route: "Mudarangadi > Yellur > Paniyoor > Uchila > Kaup > Katapady > Udupi" },
-      { id: 15, name: "Kanthi", time: "08:24 AM", route: "Mudarangadi > Kuthyar > Shirva > Kaup > Udupi" },
-      { id: 16, name: "Cekiena", time: "08:28 AM", route: "Mudarangadi > Nandikoor > Padubidri > Hejamady > Mulki" },
-      { id: 17, name: "Star", time: "08:30 AM", route: "Mudarangadi > Kuthyar > Shirva" },
-      { id: 18, name: "Amarjyothi", time: "08:45 AM", route: "Mudarangadi > Kuthyar > Shirva > Bantakal > Shankarpura > Katapady > Udupi" },
-      { id: 19, name: "S.V.T", time: "08:50 AM", route: "Mudarangadi > Yellur > Paniyoor > Uchila > Kaup > Katapady > Udupi > Perdoor > Hiriyadka" },
-      { id: 20, name: "Sharadamba", time: "08:55 AM", route: "Mudarangadi > Shirva" },
-      { id: 21, name: "Kanthi", time: "09:10 AM", route: "Mudarangadi > Nandikoor > Padubidri" },
-      { id: 22, name: "Star", time: "09:16 AM", route: "Mudarangadi > Kuthyar > Shirva > Kaup > Katapady > Udupi" },
-      { id: 23, name: "Celiena", time: "09:32 AM", route: "Mudarangadi > Kuthyar > Shirva" },
-      { id: 24, name: "Sharadamba", time: "09:32 AM", route: "Mudarangadi > Admar > Padubidri" },
-      { id: 25, name: "A.K.M.S", time: "09:35 AM", route: "Mudarangadi > Nandikoor > Palimar" },
-      { id: 26, name: "Cekiena", time: "09:55 AM", route: "Mudarangadi > Kuthyar > Shirva > Moodubelle" },
-      { id: 27, name: "Asha", time: "09:55 AM", route: "Mudarangadi > Nandikoor > Padubidri > Mulki > Kateel" },
-      { id: 28, name: "Nithyadar (Vikram)", time: "10:02 AM", route: "Mudarangadi > Nandikoor > Palimar" },
-      { id: 29, name: "Kanthi", time: "10:05 AM", route: "Mudarangadi > Kuthyar > Shirva > Bantakal > Shankarpura > Katapady > Udupi" },
-      { id: 30, name: "Priya", time: "10:05 AM", route: "Mudarangadi > Nandikoor > Padubidri" },
-      { id: 31, name: "Sharadamba", time: "10:10 AM", route: "Mudarangadi > Kuthyar > Shirva > Bantakal > Shankarpura > Katapady > Udupi" },
-      { id: 32, name: "A.K.M.S", time: "10:12 AM", route: "Mudarangadi > Nandikoor > Padubidri" },
-      { id: 33, name: "Kanthi", time: "10:20 AM", route: "Mudarangadi > Nandikoor > Padubidri" },
-      { id: 34, name: "Kanthi", time: "10:26 AM", route: "Mudarangadi > Kuthyar > Shirva > Bantakal > Shankarpura > Katapady > Udupi" },
-      { id: 35, name: "Celiena", time: "10:27 AM", route: "Mudarangadi > Admar > Yermal > Uchila > Kaup > Katapady > Udupi" },
-      { id: 36, name: "Kanthi", time: "10:30 AM", route: "Mudarangadi > Kuthyar > Shirva > Bantakal > Shankarpura > Katapady > Udupi" },
-      { id: 37, name: "Sangam", time: "10:48 AM", route: "Mudarangadi > Kuthyar > Shirva > Belman" },
-      { id: 38, name: "A.K.M.S", time: "10:58 AM", route: "Mudarangadi > Shirva > Bailur" },
-      { id: 39, name: "Priya", time: "11:05 AM", route: "Mudarangadi > Shirva > Palli > Bailur" },
-      { id: 40, name: "Kanthi", time: "11:07 AM", route: "Mudarangadi > Nandikoor > Padubidri" },
-      { id: 41, name: "Pranam", time: "11:09 AM", route: "Mudarangadi > Belman > Mundkur > Kinnigoli > Balkunje" },
-      { id: 42, name: "Cekiena", time: "11:22 AM", route: "Mudarangadi > Nandikoor > Padubidri > Hejamady > Mulki" },
-      { id: 43, name: "Nithyadar (Vikram)", time: "11:37 AM", route: "Mudarangadi > Yellur > Uchila > Kaup > Katapady > Udupi" },
-      { id: 44, name: "Kanthi", time: "11:43 AM", route: "Mudarangadi > Kuthyar > Shirva > Kaup > Udupi" },
-      { id: 45, name: "Amarjyothi", time: "12:05 PM", route: "Mudarangadi > Kuthyar > Shirva > Bantakal > Shankarpura > Katapady > Udupi" },
-      { id: 46, name: "Ganesh", time: "12:12 PM", route: "Mudarangadi > Yellur > Paniyoor > Uchila > Kaup > Katapady > Udupi" },
-      { id: 47, name: "H.M.T", time: "12:34 PM", route: "Mudarangadi > Admar > Yermal > Uchila > Kaup > Katapady > Udupi" },
-      { id: 48, name: "Star", time: "12:36 PM", route: "Mudarangadi > Kuthyar > Shirva > Kaup > Katapady > Udupi" },
-      { id: 49, name: "S.V.T", time: "12:50 PM", route: "Mudarangadi > Yellur > Paniyoor > Uchila > Kaup > Katapady > Udupi" },
-      { id: 50, name: "Cekiena", time: "12:56 PM", route: "Mudarangadi > Kuthyar > Shirva > Moodubelle" },
-      { id: 51, name: "Asha", time: "01:10 PM", route: "Mudarangadi > Kuthyar > Shirva > Bantakal > Shankarpura > Katapady > Udupi" },
-      { id: 52, name: "Kanthi", time: "01:12 PM", route: "Mudarangadi > Nandikoor > Padubidri" },
-      { id: 53, name: "A.K.M.S", time: "01:25 PM", route: "Mudarangadi > Nandikoor > Palimar" },
-      { id: 54, name: "Nithyadar (Vikram)", time: "01:55 PM", route: "Mudarangadi > Nandikoor > Palimar > Balkunje" },
-      { id: 55, name: "Priya", time: "02:07 PM", route: "Mudarangadi > Nandikoor > Padubidri" },
-      { id: 56, name: "Sharadamba", time: "02:10 PM", route: "Mudarangadi > Kuthyar > Shirva > Bantakal > Shankarpura > Katapady > Udupi" },
-      { id: 57, name: "A.K.M.S", time: "02:15 PM", route: "Mudarangadi > Yellur > Paniyoor > Uchila > Kaup > Katapady > Udupi" },
-      { id: 58, name: "Kanthi", time: "02:35 PM", route: "Mudarangadi > Kuthyar > Shirva" },
-      { id: 59, name: "Kanthi", time: "02:38 PM", route: "Mudarangadi > Nandikoor > Padubidri" },
-      { id: 60, name: "Pranam", time: "02:50 PM", route: "Mudarangadi > Kaup > Udupi" },
-      { id: 61, name: "Priya", time: "02:53 PM", route: "Mudarangadi > Shirva > Bailur" },
-      { id: 62, name: "Cekiena", time: "03:05 PM", route: "Mudarangadi > Nandikoor > Padubidri > Hejamady > Mulki" },
-      { id: 63, name: "Kanthi", time: "03:10 PM", route: "Mudarangadi > Kuthyar > Shirva > Kaup > Udupi" },
-      { id: 64, name: "Kanthi", time: "03:30 PM", route: "Mudarangadi > Nandikoor > Padubidri" },
-      { id: 65, name: "Nithyadar (Vikram)", time: "03:35 PM", route: "Mudarangadi > Yellur > Paniyoor > Uchila > Kaup > Katapady > Udupi" },
-      { id: 66, name: "Cekiena", time: "03:45 PM", route: "Mudarangadi > Kuthyar > Shirva" },
-      { id: 67, name: "H.M.T", time: "03:50 PM", route: "Mudarangadi > Admar > Yermal > Uchila > Kaup > Katapady > Udupi" },
-      { id: 68, name: "Sangam", time: "03:56 PM", route: "Mudarangadi > Kuthyar > Shirva > Udupi" },
-      { id: 69, name: "Star", time: "04:08 PM", route: "Mudarangadi > Kuthyar > Shirva > Bantakal > Shankarpura > Katapady > Udupi" },
-      { id: 70, name: "Cekiena", time: "04:20 PM", route: "Mudarangadi > Nandikoor > Padubidri > Hejamady > Mulki" },
-      { id: 71, name: "Kanthi", time: "04:30 PM", route: "Mudarangadi > Kuthyar > Shirva > Bantakal > Shankarpura > Katapady > Udupi" },
-      { id: 72, name: "A.K.M.S", time: "04:50 PM", route: "Mudarangadi > Nandikoor > Palimar" },
-      { id: 73, name: "Amarjyothi", time: "04:54 PM", route: "Mudarangadi > Kuthyar > Shirva > Bantakal > Shankarpura > Katapady > Udupi" },
-      { id: 74, name: "Ganesh", time: "04:56 PM", route: "Mudarangadi > Yellur > Paniyoor > Uchila > Kaup > Katapady > Udupi" },
-      { id: 75, name: "Sharadamba", time: "05:06 PM", route: "Mudarangadi > Admar > Padubidri" },
-      { id: 76, name: "A.K.M.S", time: "05:20 PM", route: "Mudarangadi > Yellur > Uchila > Kaup > Katapady > Udupi" },
-      { id: 77, name: "Priya", time: "05:20 PM", route: "Mudarangadi > Shirva > Bailur" },
-      { id: 78, name: "Kanthi", time: "05:45 PM", route: "Mudarangadi > Nandikoor > Padubidri" },
-      { id: 79, name: "Cekiena", time: "05:50 PM", route: "Mudarangadi > Kuthyar > Shirva > Moodubelle" },
-      { id: 80, name: "Pranam", time: "05:53 PM", route: "Mudarangadi > Belman > Mundkur > Kinnigoli > Balkunje" },
-      { id: 81, name: "Maroli", time: "06:01 PM", route: "Mudarangadi > Kuthyar > Shirva" },
-      { id: 82, name: "Asha", time: "06:15 PM", route: "Mudarangadi > Nandikoor > Padubidri > Mulki > Kateel" },
-      { id: 83, name: "Sharadamba", time: "06:21 PM", route: "Mudarangadi > Kuthyar > Shirva" },
-      { id: 84, name: "Kanthi", time: "06:23 PM", route: "Mudarangadi > Nandikoor > Padubidri" },
-      { id: 85, name: "Sangam", time: "06:25 PM", route: "Mudarangadi > Yellur > Paniyoor > Uchila > Kaup > Katapady > Udupi" },
-      { id: 86, name: "Kanthi", time: "06:28 PM", route: "Mudarangadi > Kuthyar > Shirva" },
-      { id: 87, name: "H.M.T", time: "06:30 PM", route: "Mudarangadi > Admar > Yermal > Uchila > Kaup > Katapady > Udupi" },
-      { id: 88, name: "Prince", time: "06:40 PM", route: "Mudarangadi > Nandikoor > Padubidri" },
-      { id: 89, name: "Nithyadar (Vikram)", time: "07:10 PM", route: "Mudarangadi > Nandikoor > Kanchinadka" },
-      { id: 90, name: "H.M.T", time: "07:30 PM", route: "Mudarangadi > Kuthyar > Shirva" },
-      { id: 91, name: "Ganesh / Kanthi", time: "07:30 PM", route: "Mudarangadi > Admar > Yermal" },
-      { id: 92, name: "Sangam", time: "08:20 PM", route: "Mudarangadi > Shirva" }
-    ];
-
-    const DESTINATIONS = [
-      "Admar", "Bailur", "Balkunje", "Bantakal", "Belman", "Hiriyadka", "Katapady", "Kateel", 
-      "Kaup", "Kinnigoli", "Kuthyar", "Manipal", "Mangalore", "Moodubelle", "Mulki", 
-      "Mundkur", "Nandikoor", "Padubidri", "Palimar", "Paniyoor", "Perdoor", "Shankarpura", 
-      "Shirva", "Uchila", "Udupi", "Yellur", "Yermal"
-    ];
-
-    const POPULAR_CHIPS = ["Udupi", "Padubidri", "Shirva", "Kaup", "Katapady", "Manipal", "Belman"];
-
-    let favorites = JSON.parse(localStorage.getItem('mudarangadi_fav_buses') || '[]');
-
-    function parseTimeToMinutes(timeStr) {
-      const match = timeStr.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
-      if (!match) return 0;
-      let hours = parseInt(match[1], 10);
-      const minutes = parseInt(match[2], 10);
-      const period = match[3].toUpperCase();
-
-      if (period === 'PM' && hours < 12) hours += 12;
-      if (period === 'AM' && hours === 12) hours = 0;
-
-      return hours * 60 + minutes;
-    }
-
-    function toggleFavorite(id) {
-      if (favorites.includes(id)) {
-        favorites = favorites.filter(favId => favId !== id);
-      } else {
-        favorites.push(id);
-      }
-      localStorage.setItem('mudarangadi_fav_buses', JSON.stringify(favorites));
-      renderApp();
-    }
-
-    function initFilters() {
-      const destSelect = document.getElementById('destinationSelect');
-      DESTINATIONS.forEach(dest => {
-        const opt = document.createElement('option');
-        opt.value = dest.toLowerCase();
-        opt.textContent = dest;
-        destSelect.appendChild(opt);
-      });
-
-      const quickChipsContainer = document.getElementById('quickChipsContainer');
-      POPULAR_CHIPS.forEach(chip => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'px-2.5 py-1 text-xs font-mono rounded-lg bg-mono-900 border border-mono-800 text-mono-300 hover:text-white hover:border-mono-600 transition-all flex-shrink-0';
-        btn.textContent = chip;
-        btn.onclick = () => {
-          document.getElementById('destinationSelect').value = chip.toLowerCase();
-          renderApp();
-        };
-        quickChipsContainer.appendChild(btn);
-      });
-
-      document.getElementById('searchInput').addEventListener('input', renderApp);
-      document.getElementById('destinationSelect').addEventListener('change', renderApp);
-      document.getElementById('timeShiftSelect').addEventListener('change', renderApp);
-    }
-
-    function resetFilters() {
-      document.getElementById('searchInput').value = '';
-      document.getElementById('destinationSelect').value = '';
-      document.getElementById('timeShiftSelect').value = 'ALL';
-      renderApp();
-    }
-
-    function updateLiveClockAndNextBus() {
-      const now = new Date();
-      let hours = now.getHours();
-      const minutes = now.getMinutes();
-      const seconds = now.getSeconds();
-      const ampm = hours >= 12 ? 'PM' : 'AM';
-
-      hours = hours % 12;
-      hours = hours ? hours : 12;
-      
-      const timeString = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')} ${ampm}`;
-      document.getElementById('liveClock').textContent = timeString;
-
-      const nowMinutes = now.getHours() * 60 + now.getMinutes();
-
-      let upcomingBuses = BUS_DATA.map(bus => ({
-        ...bus,
-        minutes: parseTimeToMinutes(bus.time)
-      })).filter(bus => bus.minutes >= nowMinutes)
-        .sort((a, b) => a.minutes - b.minutes);
-
-      let nextBus = upcomingBuses[0] || BUS_DATA[0];
-
-      if (nextBus) {
-        const nextBusCard = document.getElementById('nextBusCard');
-        nextBusCard.classList.remove('hidden');
-
-        document.getElementById('nextBusName').textContent = nextBus.name;
-        document.getElementById('nextBusRoute').textContent = nextBus.route;
-        document.getElementById('nextBusTime').textContent = nextBus.time;
-
-        let diff = nextBus.minutes - nowMinutes;
-        if (diff < 0) diff += 24 * 60;
-
-        document.getElementById('nextBusCountdown').textContent = `${diff} min`;
-      }
-    }
-
-    function openRouteModal(busId) {
-      const bus = BUS_DATA.find(b => b.id === busId);
-      if (!bus) return;
-
-      document.getElementById('passBusTitle').textContent = bus.name;
-      document.getElementById('passBusTime').textContent = bus.time;
-      document.getElementById('passBusNameTag').textContent = `* ${bus.name.toUpperCase()} *`;
-      document.getElementById('passCardCode').textContent = `ID: MUD-${String(bus.id).padStart(3, '0')}`;
-
-      const imgUrl = busImages[bus.name.toLowerCase()];
-      const imgElem = document.getElementById('passBusImg');
-      const placeholder = document.getElementById('passBusImgPlaceholder');
-
-      if (imgUrl) {
-        imgElem.src = imgUrl;
-        imgElem.classList.remove('hidden');
-        placeholder.classList.add('hidden');
-      } else {
-        imgElem.classList.add('hidden');
-        placeholder.classList.remove('hidden');
-      }
-
-      const stops = bus.route.split('>').map(s => s.trim());
-      document.getElementById('passRouteText').textContent = stops.join(' ➔ ');
-
-      document.getElementById('routeModal').classList.remove('hidden');
-    }
-
-    function closeModal() {
-      document.getElementById('routeModal').classList.add('hidden');
-    }
-
-    function getFilteredBuses() {
-      const searchVal = document.getElementById('searchInput').value.toLowerCase().trim();
-      const destVal = document.getElementById('destinationSelect').value.toLowerCase();
-      const timeShiftVal = document.getElementById('timeShiftSelect').value;
-
-      return BUS_DATA.filter(bus => {
-        const matchesSearch = !searchVal || 
-          bus.name.toLowerCase().includes(searchVal) || 
-          bus.route.toLowerCase().includes(searchVal);
-
-        const matchesDest = !destVal || bus.route.toLowerCase().includes(destVal);
-
-        const busMinutes = parseTimeToMinutes(bus.time);
-        let matchesTimeShift = true;
-
-        if (timeShiftVal === 'MORNING') {
-          matchesTimeShift = busMinutes >= 360 && busMinutes < 720;
-        } else if (timeShiftVal === 'AFTERNOON') {
-          matchesTimeShift = busMinutes >= 720 && busMinutes < 960;
-        } else if (timeShiftVal === 'EVENING') {
-          matchesTimeShift = busMinutes >= 960 && busMinutes <= 1260;
-        } else if (timeShiftVal === 'FAVORITES') {
-          matchesTimeShift = favorites.includes(bus.id);
-        }
-
-        return matchesSearch && matchesDest && matchesTimeShift;
-      });
-    }
-
-    function renderApp() {
-      const filtered = getFilteredBuses();
-      
-      document.getElementById('busCountDisplay').textContent = filtered.length;
-
-      const tbody = document.getElementById('busTableBody');
-      const cardContainer = document.getElementById('busCardContainer');
-      const noResults = document.getElementById('noResults');
-
-      tbody.innerHTML = '';
-      cardContainer.innerHTML = '';
-
-      if (filtered.length === 0) {
-        noResults.classList.remove('hidden');
-        return;
-      } else {
-        noResults.classList.add('hidden');
-      }
-
-      filtered.forEach(bus => {
-        const isFav = favorites.includes(bus.id);
-        const imgUrl = busImages[bus.name.toLowerCase()] || '';
-        const imgTag = imgUrl ? `<img src="${imgUrl}" class="w-7 h-7 rounded-full object-cover border border-mono-700" alt="${bus.name}">` : `<span class="text-base">🚌</span>`;
-
-        // Render Desktop Row
-        const tr = document.createElement('tr');
-        tr.className = 'hover:bg-mono-900/60 transition-colors group cursor-pointer';
-        tr.onclick = (e) => {
-          if (!e.target.closest('button')) openRouteModal(bus.id);
-        };
-
-        tr.innerHTML = `
-          <td class="py-4 px-6 text-center">
-            <button onclick="toggleFavorite(${bus.id})" class="text-mono-500 hover:text-white transition-colors focus:outline-none">
-              <i data-lucide="star" class="w-4 h-4 ${isFav ? 'fill-white text-white' : ''}"></i>
-            </button>
-          </td>
-          <td class="py-4 px-6 font-bold text-white group-hover:text-silver-gradient flex items-center gap-2.5">
-            ${imgTag}
-            <span>${bus.name}</span>
-          </td>
-          <td class="py-4 px-6 font-mono text-mono-200">
-            <span class="inline-flex items-center gap-1.5 bg-mono-900 px-2.5 py-1 rounded-md border border-mono-800">
-              <i data-lucide="clock" class="w-3.5 h-3.5 text-mono-400"></i>
-              ${bus.time}
-            </span>
-          </td>
-          <td class="py-4 px-6 text-mono-300 text-xs font-mono max-w-md truncate">${bus.route}</td>
-          <td class="py-4 px-6 text-right">
-            <button onclick="openRouteModal(${bus.id})" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-mono-900 hover:bg-mono-800 border border-mono-800 hover:border-mono-600 rounded-lg text-xs font-mono text-mono-200 transition-all">
-              <span>Pass Card</span>
-              <i data-lucide="credit-card" class="w-3.5 h-3.5"></i>
-            </button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-
-        // Render Mobile Card
-        const card = document.createElement('div');
-        card.className = 'glass-card glass-card-hover p-4 rounded-xl border border-mono-800 space-y-3 relative';
-        card.onclick = (e) => {
-          if (!e.target.closest('button')) openRouteModal(bus.id);
-        };
-
-        card.innerHTML = `
-          <div class="flex items-start justify-between gap-3">
-            <div class="flex items-center gap-2.5">
-              ${imgTag}
-              <div>
-                <span class="text-base font-bold text-white block">${bus.name}</span>
-                <span class="inline-flex items-center gap-1 text-xs font-mono text-mono-300 mt-0.5 bg-mono-900 px-2 py-0.5 rounded border border-mono-800">
-                  <i data-lucide="clock" class="w-3 h-3 text-mono-400"></i>
-                  ${bus.time}
-                </span>
-              </div>
-            </div>
-            <button onclick="toggleFavorite(${bus.id})" class="p-2 text-mono-500 hover:text-white transition-colors">
-              <i data-lucide="star" class="w-4 h-4 ${isFav ? 'fill-white text-white' : ''}"></i>
-            </button>
-          </div>
-
-          <div class="text-xs text-mono-400 font-mono line-clamp-2 border-t border-mono-900 pt-2">
-            ${bus.route}
-          </div>
-
-          <div class="flex items-center justify-between pt-1">
-            <span class="text-[10px] font-mono text-mono-500 uppercase tracking-wider">Tap for Pass Info</span>
-            <button onclick="openRouteModal(${bus.id})" class="inline-flex items-center gap-1 text-xs font-mono text-white underline underline-offset-4">
-              <span>Pass Card</span>
-              <i data-lucide="chevron-right" class="w-3 h-3"></i>
-            </button>
-          </div>
-        `;
-        cardContainer.appendChild(card);
-      });
-
-      lucide.createIcons();
-    }
-
-    window.onload = function() {
-      document.getElementById('year').textContent = new Date().getFullYear();
-      initFilters();
-      renderApp();
-      updateLiveClockAndNextBus();
-      setInterval(updateLiveClockAndNextBus, 1000);
-      lucide.createIcons();
-    };
-  </script>
+      <div class="text-xs text-m-400 font-mono border-t border-m-900 mt-3 pt-2">${b.route}</div>
+      ${b.unsure&&notes.includes(b.id)?'<div class="text-xs font-mono text-m-300 mt-2 bg-m-900 border border-m-800 rounded-lg p-2">⚠ Read from a blurry board photo (glare), so this name or time may be wrong.</div>':''}
+    </div>`).join("");
+}
+
+function toggleFav(id){
+  fav=fav.includes(id)?fav.filter(x=>x!==id):[...fav,id];
+  try{localStorage.setItem("mud_fav",JSON.stringify(fav))}catch(e){}
+  render();
+}
+function resetFilters(){$("q").value="";$("dest").value="";$("shift").value="ALL";go()}
+
+function tick(){
+  const n=new Date();let h=n.getHours();const ap=h>=12?"PM":"AM";h=h%12||12;
+  const p=x=>String(x).padStart(2,"0");
+  $("clock").textContent=`${p(h)}:${p(n.getMinutes())}:${p(n.getSeconds())} ${ap}`;
+  const now=n.getHours()*60+n.getMinutes(),all=inDir();
+  const day=Math.min(1,Math.max(0,(now-300)/(1320-300)));
+  $("bus").style.left=`calc(${day*100}% - ${day*22}px)`;
+  const nb=all.find(b=>b.min>=now)||all[0];
+  if(!nb){$("next").classList.add("hidden");return}
+  $("next").classList.remove("hidden");
+  $("nName").textContent=nb.name;$("nRoute").textContent=nb.route;$("nTime").textContent=nb.time;
+  let diff=nb.min-now;if(diff<0)diff+=1440;
+  $("nIn").textContent=diff>=60?`${Math.floor(diff/60)}h ${diff%60}m`:`${diff} min`;
+}
+
+function openModal(id){
+  const b=BUS.find(x=>x.id===id),s=b.route.split(">").map(x=>x.trim());
+  $("pName").textContent=b.name;const im=IMG[b.name.toLowerCase()];$("pImg").classList.toggle("hidden",!im);if(im)$("pImg").src=im;$("pTime").textContent=b.time;$("pId").textContent="ID: MUD-"+String(b.code).padStart(3,"0");
+  $("pFrom").textContent=s[0];$("pTo").textContent=s[s.length-1];$("pRoute").textContent=s.join(" ➔ ");
+  $("modal").classList.remove("hidden");$("modal").classList.add("flex");
+}
+function closeModal(){$("modal").classList.add("hidden");$("modal").classList.remove("flex")}
+
+document.querySelectorAll("#tabs .tab").forEach(t=>t.onclick=()=>{
+  dir=t.dataset.dir;
+  document.querySelectorAll("#tabs .tab").forEach(x=>x.classList.toggle("on",x===t));
+  buildDest();go();tick();
+});
+["q","dest","shift"].forEach(id=>$(id).addEventListener(id==="q"?"input":"change",go));
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
+
+$("year").textContent=new Date().getFullYear();
+buildDest();render();tick();setInterval(tick,1000);
+</script>
 </body>
 </html>
